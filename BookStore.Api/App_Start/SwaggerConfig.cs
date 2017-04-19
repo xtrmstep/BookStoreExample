@@ -3,6 +3,7 @@ using WebActivatorEx;
 using BookStore.Api;
 using Swashbuckle.Application;
 using System;
+using System.Collections.Generic;
 using System.Globalization;
 using System.Web.Http.Controllers;
 using System.Web.Http.Description;
@@ -88,7 +89,7 @@ namespace BookStore.Api
                         // By default, this will be controller name but you can use the "GroupActionsBy" option to
                         // override with any value.
                         //
-                        //c.GroupActionsBy(apiDesc => apiDesc.HttpMethod.ToString());
+                        c.GroupActionsBy(apiDesc => GetCotrollerName(apiDesc));
 
                         // You can also specify a custom sort order for groups (as defined by "GroupActionsBy") to dictate
                         // the order in which operations are listed. For example, if the default grouping is in place
@@ -153,7 +154,6 @@ namespace BookStore.Api
                         // Operation filters.
                         //
                         //c.OperationFilter<AddDefaultResponse>();
-                        c.OperationFilter<VersionRemoverOperationFilter>();
                         //
                         // If you've defined an OAuth2 flow as described above, you could use a custom filter
                         // to inspect some attribute on each action and infer which (if any) OAuth2 scopes are required
@@ -167,6 +167,7 @@ namespace BookStore.Api
                         // before using this option.
                         //
                         //c.DocumentFilter<ApplyDocumentVendorExtensions>();
+                        c.DocumentFilter<MyDocFilter>();
 
                         // In contrast to WebApi, Swagger 2.0 does not include the query string component when mapping a URL
                         // to an action. As a result, Swashbuckle will raise an exception if it encounters multiple actions
@@ -250,6 +251,11 @@ namespace BookStore.Api
                     });
         }
 
+        private static string GetCotrollerName(ApiDescription apiDesc)
+        {
+            return apiDesc.ActionDescriptor.ControllerDescriptor.ControllerName.Replace("Controller", string.Empty).ToLower();
+        }
+
         private static bool ResolveVersionSupportByRouteConstraint(ApiDescription apiDesc, string targetApiVersion)
         {
             // controller version
@@ -269,11 +275,18 @@ namespace BookStore.Api
                    && targetVersion == queryVersion;
         }
 
-        class VersionRemoverOperationFilter : IOperationFilter
+        private class MyDocFilter : IDocumentFilter
         {
-            public void Apply(Operation operation, SchemaRegistry schemaRegistry, ApiDescription apiDescription)
+            public void Apply(SwaggerDocument swaggerDoc, SchemaRegistry schemaRegistry, IApiExplorer apiExplorer)
             {
-                var i = 0;
+                var version = swaggerDoc.info.version;
+                var result = new Dictionary<string, PathItem>();
+                foreach (var pair in swaggerDoc.paths)
+                {
+                    var key = pair.Key.Replace(string.Format("/api/{0}/{0}", version), "/api/" + version);
+                    result.Add(key, pair.Value);
+                }
+                swaggerDoc.paths = result;
             }
         }
     }

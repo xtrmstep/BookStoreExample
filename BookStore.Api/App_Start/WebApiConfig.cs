@@ -19,7 +19,7 @@ namespace BookStore.Api
             config.MapHttpAttributeRoutes();
             
             config.Routes.MapHttpRoute(
-                name: "DefaultApiV1",
+                name: "DefaultApi",
                 routeTemplate: "api/v1/{controller}/{id}",
                 defaults: new {id = RouteParameter.Optional}
                 );
@@ -29,7 +29,7 @@ namespace BookStore.Api
                 defaults: new { id = RouteParameter.Optional }
                 );
 
-            config.Services.Replace(typeof(IHttpControllerSelector), new VersioningControllerSelector((config)));
+            config.Services.Replace(typeof(IHttpControllerSelector), new VersioningControllerSelector(config));
         }
     }
 }

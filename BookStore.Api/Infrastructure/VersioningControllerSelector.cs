@@ -2,20 +2,58 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
-using System.Web;
 using System.Web.Http;
 using System.Web.Http.Controllers;
+using System.Web.Http.Description;
 using System.Web.Http.Dispatcher;
 
 namespace BookStore.Api.Infrastructure
 {
-    public class VersioningControllerSelector : DefaultHttpControllerSelector
+    internal class VersioningControllerSelector : IHttpControllerSelector
     {
-        public VersioningControllerSelector(HttpConfiguration config) : base(config)
+        private readonly HttpConfiguration _configuration;
+
+        public VersioningControllerSelector(HttpConfiguration config)
         {
+            _configuration = config;
         }
 
-        public override HttpControllerDescriptor SelectController(HttpRequestMessage request)
+        public IDictionary<string, HttpControllerDescriptor> GetControllerMapping()
+        {
+            var result = new Dictionary<string, HttpControllerDescriptor>();
+            var controllers = GetControllerTypes();
+
+            foreach (var controller in controllers)
+            {
+                var version = GetControllerVersion(controller);
+                var controllerName = GetControllerName(controller);
+                var key = GetControllerKey(version, controllerName);
+                result.Add(key, new HttpControllerDescriptor(_configuration, controller.Name, controller));
+            }
+            return result;
+        }
+
+        private IEnumerable<Type> GetControllerTypes()
+        {
+            return (IEnumerable<Type>) _configuration.Services.GetHttpControllerTypeResolver().GetControllerTypes(_configuration.Services.GetAssembliesResolver());
+        }
+
+        private static string GetControllerName(Type controller)
+        {
+            return controller.Name.Replace("Controller", string.Empty).ToLower();
+        }
+
+        private static string GetControllerVersion(Type controller)
+        {
+            return controller.Namespace.Substring(controller.Namespace.LastIndexOf("V"));
+        }
+
+        private static string GetControllerKey(string controllerVersion, string controllerName)
+        {
+            return (controllerVersion + "/" + controllerName).ToLower();
+        }
+
+        public HttpControllerDescriptor SelectController(HttpRequestMessage request)
         {
             try
             {
@@ -23,10 +61,12 @@ namespace BookStore.Api.Infrastructure
                 var routeData = request.GetRouteData();
 
                 var controllerName = routeData.Values["controller"].ToString();
-                var version = request.RequestUri.Segments[2].Replace("/", string.Empty);
+                var controllerVersion = request.RequestUri.Segments[2].Replace("/", string.Empty);
+
                 HttpControllerDescriptor controllerDescriptor;
 
-                if (controllers.TryGetValue(controllerName+ version, out controllerDescriptor))
+                var key = GetControllerKey(controllerVersion, controllerName);
+                if (controllers.TryGetValue(key, out controllerDescriptor))
                 {
                     return controllerDescriptor;
                 }
@@ -36,8 +76,6 @@ namespace BookStore.Api.Infrastructure
             {
                 throw ex;
             }
-
-
         }
     }
 }

@@ -3,9 +3,9 @@ using BookStore.Data.Repositories;
 
 namespace BookStore.Api.Controllers.V2
 {
-    public class StoresV2Controller : StoresV1Controller
+    public class BooksController : V1.BooksController
     {
-        public StoresV2Controller(IStoreRepository storeRepository) : base(storeRepository)
+        public BooksController(IBookRepository bookRepository) : base(bookRepository)
         {
         }
     }

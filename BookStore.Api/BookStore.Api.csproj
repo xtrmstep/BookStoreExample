@@ -114,15 +114,15 @@
     <Compile Include="App_Start\BookStoreApiConfig.cs" />
     <Compile Include="App_Start\SwaggerConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
-    <Compile Include="Controllers\V1\PublishersV1Controller.cs" />
-    <Compile Include="Controllers\V1\StoresV1Controller.cs" />
-    <Compile Include="Controllers\V1\AuthorsV1Controller.cs" />
-    <Compile Include="Controllers\V1\BooksV1Controller.cs" />
-    <Compile Include="Controllers\V2\AuthorsV2Controller.cs" />
-    <Compile Include="Controllers\V2\BooksV2Controller.cs" />
-    <Compile Include="Controllers\V2\PublishersV2Controller.cs" />
+    <Compile Include="Controllers\V1\PublishersController.cs" />
+    <Compile Include="Controllers\V1\StoresController.cs" />
+    <Compile Include="Controllers\V1\AuthorsController.cs" />
+    <Compile Include="Controllers\V1\BooksController.cs" />
+    <Compile Include="Controllers\V2\AuthorsController.cs" />
+    <Compile Include="Controllers\V2\BooksController.cs" />
+    <Compile Include="Controllers\V2\PublishersController.cs" />
     <Compile Include="Controllers\V2\RootController.cs" />
-    <Compile Include="Controllers\V2\StoresV2Controller.cs" />
+    <Compile Include="Controllers\V2\StoresController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>

@@ -7,9 +7,9 @@ using BookStore.Data.Repositories;
 
 namespace BookStore.Api.Controllers.V2
 {
-    public class AuthorsV2Controller : AuthorsV1Controller
+    public class AuthorsController : V1.AuthorsController
     {
-        public AuthorsV2Controller(IAuthorRepository authorRepository) : base(authorRepository)
+        public AuthorsController(IAuthorRepository authorRepository) : base(authorRepository)
         {
         }
 
