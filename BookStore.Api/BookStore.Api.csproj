@@ -112,10 +112,10 @@
     <Compile Include="App_Start\BookStoreApiConfig.cs" />
     <Compile Include="App_Start\SwaggerConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
-    <Compile Include="Controllers\PublishersController.cs" />
-    <Compile Include="Controllers\StoresController.cs" />
-    <Compile Include="Controllers\AuthorsController.cs" />
-    <Compile Include="Controllers\BooksController.cs" />
+    <Compile Include="Controllers\V1\PublishersController.cs" />
+    <Compile Include="Controllers\V1\StoresController.cs" />
+    <Compile Include="Controllers\V1\AuthorsController.cs" />
+    <Compile Include="Controllers\V1\BooksController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
