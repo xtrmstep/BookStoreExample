@@ -23,10 +23,10 @@ namespace BookStore.Api.Infrastructure
                 var routeData = request.GetRouteData();
 
                 var controllerName = routeData.Values["controller"].ToString();
-
+                var version = request.RequestUri.Segments[2].Replace("/", string.Empty);
                 HttpControllerDescriptor controllerDescriptor;
 
-                if (controllers.TryGetValue(controllerName, out controllerDescriptor))
+                if (controllers.TryGetValue(controllerName+ version, out controllerDescriptor))
                 {
                     return controllerDescriptor;
                 }

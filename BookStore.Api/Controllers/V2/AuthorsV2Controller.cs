@@ -1,11 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Web.Http;
 using System.Web.Http.Description;
-using AutoMapper;
 using BookStore.Api.Controllers.V1;
 using BookStore.Api.Models;
-using BookStore.Data.Models;
 using BookStore.Data.Repositories;
 
 namespace BookStore.Api.Controllers.V2
@@ -14,11 +11,10 @@ namespace BookStore.Api.Controllers.V2
     {
         public AuthorsV2Controller(IAuthorRepository authorRepository) : base(authorRepository)
         {
-
         }
 
-        [ResponseType(typeof(List<AuthorReadModel>))]
-        new public IHttpActionResult Get()
+        [ResponseType(typeof (List<AuthorReadModel>))]
+        public override IHttpActionResult Get()
         {
             return Ok(new List<AuthorReadModel>());
         }

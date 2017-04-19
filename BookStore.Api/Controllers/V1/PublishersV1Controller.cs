@@ -18,7 +18,7 @@ namespace BookStore.Api.Controllers.V1
             _publisherRepository = publisherRepository;
         }
 
-        [ResponseType(typeof(List<PublisherReadModel>))]
+        [ResponseType(typeof (List<PublisherReadModel>))]
         public IHttpActionResult Get()
         {
             var listOfPublishers = _publisherRepository.GetList();
@@ -26,7 +26,7 @@ namespace BookStore.Api.Controllers.V1
             return Ok(publishers);
         }
 
-        [ResponseType(typeof(PublisherReadModel))]
+        [ResponseType(typeof (PublisherReadModel))]
         public IHttpActionResult Get(Guid id)
         {
             var publisher = _publisherRepository.Find(id);
@@ -37,7 +37,7 @@ namespace BookStore.Api.Controllers.V1
             return Ok(publisherViewModel);
         }
 
-        public IHttpActionResult Post([FromBody]PublisherCreateModel publisherModel)
+        public IHttpActionResult Post([FromBody] PublisherCreateModel publisherModel)
         {
             var newPublisher = Mapper.Map<Publisher>(publisherModel);
             var id = _publisherRepository.Add(newPublisher);
@@ -45,9 +45,10 @@ namespace BookStore.Api.Controllers.V1
             return Created(location, id);
         }
 
-        public IHttpActionResult Put(int id, [FromBody]PublisherUpdateModel publisherModel)
+        public IHttpActionResult Put(Guid id, [FromBody] PublisherUpdateModel publisherModel)
         {
             var updatedPublisher = Mapper.Map<Publisher>(publisherModel);
+            updatedPublisher.Id = id;
             _publisherRepository.Update(updatedPublisher);
             return Ok();
         }

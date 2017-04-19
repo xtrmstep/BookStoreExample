@@ -18,7 +18,7 @@ namespace BookStore.Api.Controllers.V1
             _bookRepository = bookRepository;
         }
 
-        [ResponseType(typeof(List<BookReadModel>))]
+        [ResponseType(typeof (List<BookReadModel>))]
         public IHttpActionResult Get()
         {
             var listOfBooks = _bookRepository.GetList();
@@ -26,7 +26,7 @@ namespace BookStore.Api.Controllers.V1
             return Ok(books);
         }
 
-        [ResponseType(typeof(BookReadModel))]
+        [ResponseType(typeof (BookReadModel))]
         public IHttpActionResult Get(Guid id)
         {
             var book = _bookRepository.Find(id);
@@ -37,7 +37,7 @@ namespace BookStore.Api.Controllers.V1
             return Ok(bookViewModel);
         }
 
-        public IHttpActionResult Post([FromBody]BookCreateModel bookModel)
+        public IHttpActionResult Post([FromBody] BookCreateModel bookModel)
         {
             var newBook = Mapper.Map<Book>(bookModel);
             var id = _bookRepository.Add(newBook);
@@ -45,9 +45,10 @@ namespace BookStore.Api.Controllers.V1
             return Created(location, id);
         }
 
-        public IHttpActionResult Put(int id, [FromBody]BookUpdateModel bookModel)
+        public IHttpActionResult Put(Guid id, [FromBody] BookUpdateModel bookModel)
         {
             var updatedBook = Mapper.Map<Book>(bookModel);
+            updatedBook.Id = id;
             _bookRepository.Update(updatedBook);
             return Ok();
         }

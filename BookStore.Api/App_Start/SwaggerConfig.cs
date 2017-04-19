@@ -4,8 +4,10 @@ using BookStore.Api;
 using Swashbuckle.Application;
 using System;
 using System.Globalization;
+using System.Web.Http.Controllers;
 using System.Web.Http.Description;
 using System.Xml.XPath;
+using Swashbuckle.Swagger;
 
 [assembly: PreApplicationStartMethod(typeof(SwaggerConfig), "Register")]
 
@@ -151,6 +153,7 @@ namespace BookStore.Api
                         // Operation filters.
                         //
                         //c.OperationFilter<AddDefaultResponse>();
+                        c.OperationFilter<VersionRemoverOperationFilter>();
                         //
                         // If you've defined an OAuth2 flow as described above, you could use a custom filter
                         // to inspect some attribute on each action and infer which (if any) OAuth2 scopes are required
@@ -249,17 +252,29 @@ namespace BookStore.Api
 
         private static bool ResolveVersionSupportByRouteConstraint(ApiDescription apiDesc, string targetApiVersion)
         {
-            var controllerName = apiDesc.ActionDescriptor.ControllerDescriptor.ControllerName;
-            var controllerVersionStartIndex = controllerName.LastIndexOf("V");
-            var controllerMaxVersion = int.Parse(controllerName.Substring(controllerVersionStartIndex+1));
+            // controller version
+            var ctrlDescriptor = apiDesc.ActionDescriptor.ControllerDescriptor;
+            var controllerNamespace = ctrlDescriptor.ControllerType.Namespace;
+            var versionStartIndex = controllerNamespace.LastIndexOf("V");
+            var controllerVersion = int.Parse(controllerNamespace.Substring(versionStartIndex + 1));
+
+            // requested version in Swagger
+            var targetVersion = int.Parse(targetApiVersion.Substring(1));
+
+            // version in URL
             var path = apiDesc.RelativePath.Split('/');
-            var pathVersion = int.Parse(path[1].Substring(1));
+            var queryVersion = int.Parse(path[1].Substring(1));
 
-            var target = int.Parse(targetApiVersion.Substring(1));
+            return targetVersion == controllerVersion
+                   && targetVersion == queryVersion;
+        }
 
-            var constraint = target == pathVersion  && pathVersion == controllerMaxVersion;
-
-            return constraint;
+        class VersionRemoverOperationFilter : IOperationFilter
+        {
+            public void Apply(Operation operation, SchemaRegistry schemaRegistry, ApiDescription apiDescription)
+            {
+                var i = 0;
+            }
         }
     }
 }

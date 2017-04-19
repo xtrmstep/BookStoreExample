@@ -18,7 +18,7 @@ namespace BookStore.Api.Controllers.V1
             _storeRepository = storeRepository;
         }
 
-        [ResponseType(typeof(List<StoreReadModel>))]
+        [ResponseType(typeof (List<StoreReadModel>))]
         public IHttpActionResult Get()
         {
             var listOfStores = _storeRepository.GetList();
@@ -26,7 +26,7 @@ namespace BookStore.Api.Controllers.V1
             return Ok(stores);
         }
 
-        [ResponseType(typeof(StoreReadModel))]
+        [ResponseType(typeof (StoreReadModel))]
         public IHttpActionResult Get(Guid id)
         {
             var store = _storeRepository.Find(id);
@@ -37,7 +37,7 @@ namespace BookStore.Api.Controllers.V1
             return Ok(storeViewModel);
         }
 
-        public IHttpActionResult Post([FromBody]StoreCreateModel storeModel)
+        public IHttpActionResult Post([FromBody] StoreCreateModel storeModel)
         {
             var newStore = Mapper.Map<Store>(storeModel);
             var id = _storeRepository.Add(newStore);
@@ -45,9 +45,10 @@ namespace BookStore.Api.Controllers.V1
             return Created(location, id);
         }
 
-        public IHttpActionResult Put(int id, [FromBody]StoreUpdateModel storeModel)
+        public IHttpActionResult Put(Guid id, [FromBody] StoreUpdateModel storeModel)
         {
             var updatedStore = Mapper.Map<Store>(storeModel);
+            updatedStore.Id = id;
             _storeRepository.Update(updatedStore);
             return Ok();
         }
