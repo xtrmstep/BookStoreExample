@@ -53,8 +53,16 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Impl\BookStoreInventoryContext.cs" />
-    <Compile Include="IBookStoreInventoryContext.cs" />
+    <Compile Include="DependencyConfiguration.cs" />
+    <Compile Include="BookStoreInventoryContext.cs" />
+    <Compile Include="Repositories\IAuthorRepository.cs" />
+    <Compile Include="Repositories\IBookRepository.cs" />
+    <Compile Include="Repositories\Impl\AuthorRepository.cs" />
+    <Compile Include="Repositories\Impl\BookRepository.cs" />
+    <Compile Include="Repositories\Impl\PublisherRepository.cs" />
+    <Compile Include="Repositories\Impl\StoreRepository.cs" />
+    <Compile Include="Repositories\IPublisherRepository.cs" />
+    <Compile Include="Repositories\IStoreRepository.cs" />
     <Compile Include="Migrations\201704190825277_initial.cs" />
     <Compile Include="Migrations\201704190825277_initial.Designer.cs">
       <DependentUpon>201704190825277_initial.cs</DependentUpon>
@@ -77,6 +85,9 @@
     <EmbeddedResource Include="Migrations\201704190825277_initial.resx">
       <DependentUpon>201704190825277_initial.cs</DependentUpon>
     </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Services\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
