@@ -9,7 +9,6 @@ using BookStore.Data.Repositories;
 
 namespace BookStore.Api.Controllers.V1
 {
-    [RoutePrefix("api/v1/authors")]
     public class AuthorsController : ApiController
     {
         private readonly IAuthorRepository _authorRepository;
@@ -27,7 +26,6 @@ namespace BookStore.Api.Controllers.V1
             return Ok(authors);
         }
 
-        [Route("{id:guid}")]
         [ResponseType(typeof(AuthorReadModel))]
         public IHttpActionResult Get(Guid id)
         {
@@ -54,7 +52,6 @@ namespace BookStore.Api.Controllers.V1
             return Ok();
         }
 
-        [Route("{id:guid}")]
         public IHttpActionResult Delete(Guid id)
         {
             _authorRepository.Remove(id);
