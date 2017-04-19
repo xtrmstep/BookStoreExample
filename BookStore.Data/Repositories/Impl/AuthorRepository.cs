@@ -7,11 +7,11 @@ namespace BookStore.Data.Repositories.Impl
 {
     class AuthorRepository : IAuthorRepository
     {
-        public Guid Add(Author author)
+        public Guid Add(Author item)
         {
             using (var ctx = new BookStoreContext())
             {
-                var addedAuthor = ctx.Authors.Add(author);
+                var addedAuthor = ctx.Authors.Add(item);
                 ctx.SaveChanges();
                 return addedAuthor.Id;
             }
@@ -43,12 +43,12 @@ namespace BookStore.Data.Repositories.Impl
             }
         }
 
-        public void Update(Author author)
+        public void Update(Author item)
         {
             using (var ctx = new BookStoreContext())
             {
-                var existingAuthor = ctx.Authors.First(a => a.Id == author.Id);
-                existingAuthor.Name = author.Name;
+                var existingAuthor = ctx.Authors.First(a => a.Id == item.Id);
+                existingAuthor.Name = item.Name;
                 ctx.SaveChanges();
             }
         }

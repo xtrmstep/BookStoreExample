@@ -6,7 +6,7 @@ namespace BookStore.Data.Repositories.Impl
 {
     class StoreRepository : IStoreRepository
     {
-        public Guid Add(Store author)
+        public Guid Add(Store item)
         {
             throw new NotImplementedException();
         }
@@ -26,7 +26,7 @@ namespace BookStore.Data.Repositories.Impl
             throw new NotImplementedException();
         }
 
-        public void Update(Store author)
+        public void Update(Store item)
         {
             throw new NotImplementedException();
         }

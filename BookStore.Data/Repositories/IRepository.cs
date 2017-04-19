@@ -7,14 +7,14 @@ namespace BookStore.Data.Repositories
     {
         IList<T> GetList();
         T Find(Guid id);
-        Guid Add(T author);
+        Guid Add(T item);
 
         /// <summary>
         /// Update item
         /// </summary>
-        /// <param name="author"></param>
+        /// <param name="item"></param>
         /// <exception cref="InvalidOperationException">No element satisfies the condition</exception>
-        void Update(T author);
+        void Update(T item);
 
         /// <summary>
         /// Remove item

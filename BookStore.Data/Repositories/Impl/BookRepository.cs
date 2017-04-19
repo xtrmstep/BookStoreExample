@@ -1,34 +1,56 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using BookStore.Data.Models;
 
 namespace BookStore.Data.Repositories.Impl
 {
     class BookRepository : IBookRepository
     {
-        public Guid Add(Book author)
+        public Guid Add(Book item)
         {
-            throw new NotImplementedException();
+            using (var ctx = new BookStoreContext())
+            {
+                var addedBook = ctx.Books.Add(item);
+                ctx.SaveChanges();
+                return addedBook.Id;
+            }
         }
 
         public Book Find(Guid id)
         {
-            throw new NotImplementedException();
+            using (var ctx = new BookStoreContext())
+            {
+                return ctx.Books.FirstOrDefault(a => a.Id == id);
+            }
         }
 
         public IList<Book> GetList()
         {
-            throw new NotImplementedException();
+            using (var ctx = new BookStoreContext())
+            {
+                return ctx.Books.ToList();
+            }
         }
 
         public void Remove(Guid id)
         {
-            throw new NotImplementedException();
+            using (var ctx = new BookStoreContext())
+            {
+                var book = ctx.Books.First(a => a.Id == id);
+                ctx.Books.Remove(book);
+                ctx.SaveChanges();
+            }
         }
 
-        public void Update(Book author)
+        public void Update(Book item)
         {
-            throw new NotImplementedException();
+            using (var ctx = new BookStoreContext())
+            {
+                var existingBook = ctx.Books.First(a => a.Id == item.Id);
+                existingBook.Title = item.Title;
+                ctx.SaveChanges();
+            }
         }
     }
 }
