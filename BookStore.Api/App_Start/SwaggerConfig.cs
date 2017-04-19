@@ -2,6 +2,10 @@ using System.Web.Http;
 using WebActivatorEx;
 using BookStore.Api;
 using Swashbuckle.Application;
+using System;
+using System.Globalization;
+using System.Web.Http.Description;
+using System.Xml.XPath;
 
 [assembly: PreApplicationStartMethod(typeof(SwaggerConfig), "Register")]
 
@@ -32,20 +36,20 @@ namespace BookStore.Api
                         // hold additional metadata for an API. Version and title are required but you can also provide
                         // additional fields by chaining methods off SingleApiVersion.
                         //
-                        c.SingleApiVersion("v1", "BookStore.Api");
+                        //c.SingleApiVersion("v1", "Book Store Inventory Api");
 
                         // If your API has multiple versions, use "MultipleApiVersions" instead of "SingleApiVersion".
                         // In this case, you must provide a lambda that tells Swashbuckle which actions should be
                         // included in the docs for a given API version. Like "SingleApiVersion", each call to "Version"
                         // returns an "Info" builder so you can provide additional metadata per API version.
                         //
-                        //c.MultipleApiVersions(
-                        //    (apiDesc, targetApiVersion) => ResolveVersionSupportByRouteConstraint(apiDesc, targetApiVersion),
-                        //    (vc) =>
-                        //    {
-                        //        vc.Version("v2", "Swashbuckle Dummy API V2");
-                        //        vc.Version("v1", "Swashbuckle Dummy API V1");
-                        //    });
+                        c.MultipleApiVersions(
+                            (apiDesc, targetApiVersion) => ResolveVersionSupportByRouteConstraint(apiDesc, targetApiVersion),
+                            (vc) =>
+                            {
+                                vc.Version("v2", "Book Store Inventory API V2");
+                                vc.Version("v1", "Book Store Inventory API V1");
+                            });
 
                         // You can use "BasicAuth", "ApiKey" or "OAuth2" options to describe security schemes for the API.
                         // See https://github.com/swagger-api/swagger-spec/blob/master/versions/2.0.md for more details.
@@ -57,7 +61,7 @@ namespace BookStore.Api
                         //c.BasicAuth("basic")
                         //    .Description("Basic HTTP Authentication");
                         //
-						// NOTE: You must also configure 'EnableApiKeySupport' below in the SwaggerUI section
+                        // NOTE: You must also configure 'EnableApiKeySupport' below in the SwaggerUI section
                         //c.ApiKey("apiKey")
                         //    .Description("API Key Authentication")
                         //    .Name("apiKey")
@@ -97,7 +101,7 @@ namespace BookStore.Api
                         // those comments into the generated docs and UI. You can enable this by providing the path to one or
                         // more Xml comment files.
                         //
-                        //c.IncludeXmlComments(GetXmlCommentsPath());
+                        c.IncludeXmlComments(string.Format(@"{0}\bin\BookStore.Api.XML", System.AppDomain.CurrentDomain.BaseDirectory));
 
                         // Swashbuckle makes a best attempt at generating Swagger compliant JSON schemas for the various types
                         // exposed in your API. However, there may be occasions when more control of the output is needed.
@@ -241,6 +245,21 @@ namespace BookStore.Api
                         //
                         //c.EnableApiKeySupport("apiKey", "header");
                     });
+        }
+
+        private static bool ResolveVersionSupportByRouteConstraint(ApiDescription apiDesc, string targetApiVersion)
+        {
+            var controllerName = apiDesc.ActionDescriptor.ControllerDescriptor.ControllerName;
+            var controllerVersionStartIndex = controllerName.LastIndexOf("V");
+            var controllerMaxVersion = int.Parse(controllerName.Substring(controllerVersionStartIndex+1));
+            var path = apiDesc.RelativePath.Split('/');
+            var pathVersion = int.Parse(path[1].Substring(1));
+
+            var target = int.Parse(targetApiVersion.Substring(1));
+
+            var constraint = target == pathVersion  && pathVersion == controllerMaxVersion;
+
+            return constraint;
         }
     }
 }

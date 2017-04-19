@@ -9,11 +9,11 @@ using BookStore.Data.Repositories;
 
 namespace BookStore.Api.Controllers.V1
 {
-    public class BooksController : ApiController
+    public class BooksV1Controller : ApiController
     {
         private readonly IBookRepository _bookRepository;
 
-        public BooksController(IBookRepository bookRepository)
+        public BooksV1Controller(IBookRepository bookRepository)
         {
             _bookRepository = bookRepository;
         }

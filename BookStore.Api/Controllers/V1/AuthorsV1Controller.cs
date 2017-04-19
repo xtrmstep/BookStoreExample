@@ -9,19 +9,19 @@ using BookStore.Data.Repositories;
 
 namespace BookStore.Api.Controllers.V1
 {
-    public class AuthorsController : ApiController
+    public class AuthorsV1Controller : ApiController
     {
-        private readonly IAuthorRepository _authorRepository;
+        protected readonly IAuthorRepository AuthorRepository;
 
-        public AuthorsController(IAuthorRepository authorRepository)
+        public AuthorsV1Controller(IAuthorRepository authorRepository)
         {
-            _authorRepository = authorRepository;
+            AuthorRepository = authorRepository;
         }
 
         [ResponseType(typeof(List<AuthorReadModel>))]
         public IHttpActionResult Get()
         {
-            var listOfAuthors = _authorRepository.GetList();
+            var listOfAuthors = AuthorRepository.GetList();
             var authors = Mapper.Map<List<AuthorReadModel>>(listOfAuthors);
             return Ok(authors);
         }
@@ -29,7 +29,7 @@ namespace BookStore.Api.Controllers.V1
         [ResponseType(typeof(AuthorReadModel))]
         public IHttpActionResult Get(Guid id)
         {
-            var author = _authorRepository.Find(id);
+            var author = AuthorRepository.Find(id);
             if (author == null)
                 return NotFound();
 
@@ -40,7 +40,7 @@ namespace BookStore.Api.Controllers.V1
         public IHttpActionResult Post([FromBody]AuthorCreateModel authorModel)
         {
             var newAuthor = Mapper.Map<Author>(authorModel);
-            var id = _authorRepository.Add(newAuthor);
+            var id = AuthorRepository.Add(newAuthor);
             var location = new Uri(Request.RequestUri + "/" + id);
             return Created(location, id);
         }
@@ -48,13 +48,13 @@ namespace BookStore.Api.Controllers.V1
         public IHttpActionResult Put(int id, [FromBody]AuthorUpdateModel authorModel)
         {
             var updatedAuthor = Mapper.Map<Author>(authorModel);
-            _authorRepository.Update(updatedAuthor);
+            AuthorRepository.Update(updatedAuthor);
             return Ok();
         }
 
         public IHttpActionResult Delete(Guid id)
         {
-            _authorRepository.Remove(id);
+            AuthorRepository.Remove(id);
             return Ok();
         }
     }

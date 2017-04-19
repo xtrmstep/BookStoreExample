@@ -33,6 +33,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <DocumentationFile>bin\BookStore.Api.XML</DocumentationFile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -42,6 +43,7 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <DocumentationFile>bin\BookStore.Api.XML</DocumentationFile>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Autofac, Version=4.5.0.0, Culture=neutral, PublicKeyToken=17863af14b0044da, processorArchitecture=MSIL">
@@ -112,13 +114,18 @@
     <Compile Include="App_Start\BookStoreApiConfig.cs" />
     <Compile Include="App_Start\SwaggerConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
-    <Compile Include="Controllers\V1\PublishersController.cs" />
-    <Compile Include="Controllers\V1\StoresController.cs" />
-    <Compile Include="Controllers\V1\AuthorsController.cs" />
-    <Compile Include="Controllers\V1\BooksController.cs" />
+    <Compile Include="Controllers\V1\PublishersV1Controller.cs" />
+    <Compile Include="Controllers\V1\StoresV1Controller.cs" />
+    <Compile Include="Controllers\V1\AuthorsV1Controller.cs" />
+    <Compile Include="Controllers\V1\BooksV1Controller.cs" />
+    <Compile Include="Controllers\V2\AuthorsV2Controller.cs" />
+    <Compile Include="Controllers\V2\BooksV2Controller.cs" />
+    <Compile Include="Controllers\V2\PublishersV2Controller.cs" />
+    <Compile Include="Controllers\V2\StoresV2Controller.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Infrastructure\VersioningControllerSelector.cs" />
     <Compile Include="Models\AuthorUpdateModel.cs" />
     <Compile Include="Models\AuthorReadModel.cs" />
     <Compile Include="Models\AuthorCreateModel.cs" />
