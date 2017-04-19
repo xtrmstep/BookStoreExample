@@ -1,11 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Net;
 using System.Web.Http;
 using System.Web.Http.Description;
 using AutoMapper;
 using BookStore.Api.Models;
 using BookStore.Data.Models;
 using BookStore.Data.Repositories;
+using Swashbuckle.Swagger.Annotations;
 
 namespace BookStore.Api.Controllers.V1
 {
@@ -37,26 +39,50 @@ namespace BookStore.Api.Controllers.V1
             return Ok(storeViewModel);
         }
 
+        [SwaggerResponseRemoveDefaults]
+        [SwaggerResponse(HttpStatusCode.Created, Description = "Created", Type = typeof (Guid))]
+        [SwaggerResponse(HttpStatusCode.BadRequest, Description = "BadRequest")]
         public IHttpActionResult Post([FromBody] StoreCreateModel storeModel)
         {
+            if (!ModelState.IsValid) return BadRequest();
+
             var newStore = Mapper.Map<Store>(storeModel);
             var id = _storeRepository.Add(newStore);
             var location = new Uri(Request.RequestUri + "/" + id);
             return Created(location, id);
         }
 
+        [SwaggerResponse(HttpStatusCode.BadRequest, Description = "BadRequest")]
+        [SwaggerResponse(HttpStatusCode.NotFound, Description = "Not Found")]
         public IHttpActionResult Put(Guid id, [FromBody] StoreUpdateModel storeModel)
         {
-            var updatedStore = Mapper.Map<Store>(storeModel);
-            updatedStore.Id = id;
-            _storeRepository.Update(updatedStore);
-            return Ok();
+            try
+            {
+                if (!ModelState.IsValid) return BadRequest();
+
+                var updatedStore = Mapper.Map<Store>(storeModel);
+                updatedStore.Id = id;
+                _storeRepository.Update(updatedStore);
+                return Ok();
+            }
+            catch (InvalidOperationException)
+            {
+                return NotFound();
+            }
         }
 
+        [SwaggerResponse(HttpStatusCode.NotFound, Description = "Not Found")]
         public IHttpActionResult Delete(Guid id)
         {
-            _storeRepository.Remove(id);
-            return Ok();
+            try
+            {
+                _storeRepository.Remove(id);
+                return Ok();
+            }
+            catch (InvalidOperationException)
+            {
+                return NotFound();
+            }
         }
     }
 }

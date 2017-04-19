@@ -42,6 +42,10 @@ namespace BookStore.Api.App_Start
                     cfg.CreateMap<Publisher, PublisherUpdateModel>();
                     cfg.CreateMap<PublisherCreateModel, Publisher>();
                     cfg.CreateMap<PublisherUpdateModel, Publisher>();
+
+                    cfg.CreateMap<LocationAddress, LocationAddressModel>();
+                    cfg.CreateMap<LocationAddressModel, LocationAddress>();
+
                 });
             }
         

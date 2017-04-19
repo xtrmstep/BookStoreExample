@@ -134,6 +134,7 @@
     <Compile Include="Models\BookReadModel.cs" />
     <Compile Include="Models\BookCreateModel.cs" />
     <Compile Include="Models\BookUpdateModel.cs" />
+    <Compile Include="Models\LocationAddressModel.cs" />
     <Compile Include="Models\PublisherCreateModel.cs" />
     <Compile Include="Models\PublisherReadModel.cs" />
     <Compile Include="Models\PublisherUpdateModel.cs" />
