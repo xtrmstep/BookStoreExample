@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using BookStore.Data.Models;
 
 namespace BookStore.Data.Repositories.Impl
@@ -8,27 +9,48 @@ namespace BookStore.Data.Repositories.Impl
     {
         public Guid Add(Author author)
         {
-            throw new NotImplementedException();
+            using (var ctx = new BookStoreContext())
+            {
+                var addedAuthor = ctx.Authors.Add(author);
+                ctx.SaveChanges();
+                return addedAuthor.Id;
+            }
         }
 
         public Author Find(Guid id)
         {
-            throw new NotImplementedException();
+            using (var ctx = new BookStoreContext())
+            {
+                return ctx.Authors.FirstOrDefault(a => a.Id == id);
+            }
         }
 
         public IList<Author> GetList()
         {
-            throw new NotImplementedException();
+            using (var ctx = new BookStoreContext())
+            {
+                return ctx.Authors.ToList();
+            }
         }
 
         public void Remove(Guid id)
         {
-            throw new NotImplementedException();
+            using (var ctx = new BookStoreContext())
+            {
+                var author = ctx.Authors.First(a => a.Id == id);
+                ctx.Authors.Remove(author);
+                ctx.SaveChanges();
+            }
         }
 
         public void Update(Author author)
         {
-            throw new NotImplementedException();
+            using (var ctx = new BookStoreContext())
+            {
+                var existingAuthor = ctx.Authors.First(a => a.Id == author.Id);
+                existingAuthor.Name = author.Name;
+                ctx.SaveChanges();
+            }
         }
     }
 }

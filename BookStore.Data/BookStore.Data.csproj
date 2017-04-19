@@ -54,7 +54,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DependencyConfiguration.cs" />
-    <Compile Include="BookStoreInventoryContext.cs" />
+    <Compile Include="BookStoreContext.cs" />
     <Compile Include="Repositories\IAuthorRepository.cs" />
     <Compile Include="Repositories\IBookRepository.cs" />
     <Compile Include="Repositories\Impl\AuthorRepository.cs" />

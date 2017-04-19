@@ -7,6 +7,7 @@ using System.Web.Http;
 using System.Web.Routing;
 using Autofac;
 using Autofac.Integration.WebApi;
+using BookStore.Api.App_Start;
 using BookStore.Data;
 
 namespace BookStore.Api
@@ -15,6 +16,8 @@ namespace BookStore.Api
     {
         protected void Application_Start()
         {
+            BookStoreApiConfig.Register();
+
             GlobalConfiguration.Configure(WebApiConfig.Register);
 
             // autofac

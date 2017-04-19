@@ -3,7 +3,7 @@ using BookStore.Data.Models;
 
 namespace BookStore.Data
 {
-    class BookStoreInventoryContext : DbContext
+    class BookStoreContext : DbContext
     {
         public IDbSet<Author> Authors { get; set; }
 
