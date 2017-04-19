@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data.Entity;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Data.Entity;
 using BookStore.Data.Models;
 
 namespace BookStore.Data
@@ -13,9 +8,6 @@ namespace BookStore.Data
         IDbSet<Author> Authors { get; set; }
         IDbSet<Book> Books { get; set; }
         IDbSet<Store> Stores { get; set; }
-    }
-
-    class BookStoreInventoryContext : IBookStoreInventoryContext
-    {
+        IDbSet<Publisher> Publishers { get; set; }
     }
 }
