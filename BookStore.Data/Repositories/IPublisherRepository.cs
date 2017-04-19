@@ -5,10 +5,7 @@ using System;
 
 namespace BookStore.Data.Repositories
 {
-    public interface IPublisherRepository
+    public interface IPublisherRepository : IRepository<Publisher>
     {
-        IList<Publisher> GetList();
-        Publisher Find(Guid id);
-        Guid Add(Publisher newPublisher);
     }
 }

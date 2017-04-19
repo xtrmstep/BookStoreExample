@@ -39,7 +39,6 @@ namespace BookStore.Api.Controllers.V1
             return Ok(storeViewModel);
         }
 
-        // POST api/<controller>
         public IHttpActionResult Post([FromBody]StoreCreateModel storeModel)
         {
             var newStore = Mapper.Map<Store>(storeModel);
@@ -48,14 +47,18 @@ namespace BookStore.Api.Controllers.V1
             return Created(location, id);
         }
 
-        // PUT api/<controller>/5
-        public IHttpActionResult Put(int id, [FromBody]string value)
+        public IHttpActionResult Put(int id, [FromBody]StoreUpdateModel storeModel)
         {
+            var updatedStore = Mapper.Map<Store>(storeModel);
+            _storeRepository.Update(updatedStore);
+            return Ok();
         }
 
-        // DELETE api/<controller>/5
-        public IHttpActionResult Delete(int id)
+        [Route("{id:guid}")]
+        public IHttpActionResult Delete(Guid id)
         {
+            _storeRepository.Remove(id);
+            return Ok();
         }
     }
 }

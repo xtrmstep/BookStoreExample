@@ -5,14 +5,14 @@ namespace BookStore.Data.Migrations
     using System.Data.Entity.Migrations;
     using System.Linq;
 
-    internal sealed class Configuration : DbMigrationsConfiguration<BookStore.Data.Impl.BookStoreInventoryContext>
+    internal sealed class Configuration : DbMigrationsConfiguration<BookStoreInventoryContext>
     {
         public Configuration()
         {
             AutomaticMigrationsEnabled = true;
         }
 
-        protected override void Seed(BookStore.Data.Impl.BookStoreInventoryContext context)
+        protected override void Seed(BookStoreInventoryContext context)
         {
             //  This method will be called after migrating to the latest version.
 

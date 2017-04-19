@@ -1,10 +1,9 @@
-﻿using System;
-using System.Data.Entity;
+﻿using System.Data.Entity;
 using BookStore.Data.Models;
 
-namespace BookStore.Data.Impl
+namespace BookStore.Data
 {
-    class BookStoreInventoryContext : DbContext, IBookStoreInventoryContext
+    class BookStoreInventoryContext : DbContext
     {
         public IDbSet<Author> Authors { get; set; }
 

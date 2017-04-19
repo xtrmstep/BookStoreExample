@@ -1,14 +1,8 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using BookStore.Data.Models;
+﻿using BookStore.Data.Models;
 
 namespace BookStore.Data.Repositories
 {
-    public interface IStoreRepository
+    public interface IStoreRepository : IRepository<Store>
     {
-        IList<Store> GetList();
-        Store Find(Guid id);
-        Guid Add(Store newStore);
     }
 }

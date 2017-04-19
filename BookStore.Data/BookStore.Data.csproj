@@ -62,6 +62,7 @@
     <Compile Include="Repositories\Impl\PublisherRepository.cs" />
     <Compile Include="Repositories\Impl\StoreRepository.cs" />
     <Compile Include="Repositories\IPublisherRepository.cs" />
+    <Compile Include="Repositories\IRepository.cs" />
     <Compile Include="Repositories\IStoreRepository.cs" />
     <Compile Include="Migrations\201704190825277_initial.cs" />
     <Compile Include="Migrations\201704190825277_initial.Designer.cs">

@@ -47,12 +47,18 @@ namespace BookStore.Api.Controllers.V1
             return Created(location, id);
         }
 
-        public IHttpActionResult Put(int id, [FromBody]string value)
+        public IHttpActionResult Put(int id, [FromBody]PublisherUpdateModel publisherModel)
         {
+            var updatedPublisher = Mapper.Map<Publisher>(publisherModel);
+            _publisherRepository.Update(updatedPublisher);
+            return Ok();
         }
 
-        public IHttpActionResult Delete(int id)
+        [Route("{id:guid}")]
+        public IHttpActionResult Delete(Guid id)
         {
+            _publisherRepository.Remove(id);
+            return Ok();
         }
     }
 }
