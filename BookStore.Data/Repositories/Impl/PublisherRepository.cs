@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using BookStore.Data.Models;
 
 namespace BookStore.Data.Repositories.Impl
@@ -8,27 +9,48 @@ namespace BookStore.Data.Repositories.Impl
     {
         public Guid Add(Publisher item)
         {
-            throw new NotImplementedException();
+            using (var ctx = new BookStoreContext())
+            {
+                var addedPublisher = ctx.Publishers.Add(item);
+                ctx.SaveChanges();
+                return addedPublisher.Id;
+            }
         }
 
         public Publisher Find(Guid id)
         {
-            throw new NotImplementedException();
+            using (var ctx = new BookStoreContext())
+            {
+                return ctx.Publishers.FirstOrDefault(a => a.Id == id);
+            }
         }
 
         public IList<Publisher> GetList()
         {
-            throw new NotImplementedException();
+            using (var ctx = new BookStoreContext())
+            {
+                return ctx.Publishers.ToList();
+            }
         }
 
         public void Remove(Guid id)
         {
-            throw new NotImplementedException();
+            using (var ctx = new BookStoreContext())
+            {
+                var publisher = ctx.Publishers.First(a => a.Id == id);
+                ctx.Publishers.Remove(publisher);
+                ctx.SaveChanges();
+            }
         }
 
         public void Update(Publisher item)
         {
-            throw new NotImplementedException();
+            using (var ctx = new BookStoreContext())
+            {
+                var existingPublisher = ctx.Publishers.First(a => a.Id == item.Id);
+                existingPublisher.Name = item.Name;
+                ctx.SaveChanges();
+            }
         }
     }
 }

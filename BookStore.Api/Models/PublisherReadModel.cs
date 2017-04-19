@@ -7,5 +7,7 @@ namespace BookStore.Api.Models
 {
     public class PublisherReadModel
     {
+        public Guid Id { get; set; }
+        public string Name { get; set; }
     }
 }

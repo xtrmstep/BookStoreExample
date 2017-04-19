@@ -36,6 +36,12 @@ namespace BookStore.Api.App_Start
                     cfg.CreateMap<Store, StoreUpdateModel>();
                     cfg.CreateMap<StoreCreateModel, Store>();
                     cfg.CreateMap<StoreUpdateModel, Store>();
+
+                    cfg.CreateMap<Publisher, PublisherReadModel>();
+                    cfg.CreateMap<Publisher, PublisherCreateModel>();
+                    cfg.CreateMap<Publisher, PublisherUpdateModel>();
+                    cfg.CreateMap<PublisherCreateModel, Publisher>();
+                    cfg.CreateMap<PublisherUpdateModel, Publisher>();
                 });
             }
         
