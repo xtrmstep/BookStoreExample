@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using System.Web.Http;
 using System.Web.Http.Description;
@@ -13,7 +14,7 @@ namespace BookStore.Api.Controllers.V2
 {
     public class AuthorsController : V1.AuthorsController
     {
-        public AuthorsController(IAuthorRepository authorRepository) : base(authorRepository)
+        public AuthorsController(IAuthorRepository authorRepository, IBookRepository bookRepository) : base(authorRepository, bookRepository)
         {
         }
 

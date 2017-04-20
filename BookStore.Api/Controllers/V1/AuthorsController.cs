@@ -17,12 +17,16 @@ namespace BookStore.Api.Controllers.V1
 {
     public class AuthorsController : ApiController
     {
-        protected readonly IAuthorRepository AuthorRepository;
+        private readonly IAuthorRepository _authorRepository;
+        private readonly IBookRepository _bookRepository;
 
-        public AuthorsController(IAuthorRepository authorRepository)
+        public AuthorsController(IAuthorRepository authorRepository, IBookRepository bookRepository)
         {
-            AuthorRepository = authorRepository;
+            _authorRepository = authorRepository;
+            _bookRepository = bookRepository;
         }
+
+        public IAuthorRepository AuthorRepository => _authorRepository;
 
         [ResponseType(typeof(List<AuthorReadModel>))]
         public virtual IHttpActionResult Get()
@@ -51,6 +55,13 @@ namespace BookStore.Api.Controllers.V1
             if (!ModelState.IsValid) return BadRequest();
 
             var newAuthor = Mapper.Map<Author>(authorModel);
+            // add existing books
+            foreach (var bookId in authorModel.Books)
+            {
+                var existingBook = _bookRepository.Find(bookId);
+                if (existingBook != null)
+                    newAuthor.Books.Add(existingBook);
+            }
             var id = AuthorRepository.Add(newAuthor);
             var location = new Uri(Request.RequestUri + "/" + id);
             return Created(location, id);

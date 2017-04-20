@@ -1,4 +1,6 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace BookStore.Api.Models
 {
@@ -6,5 +8,6 @@ namespace BookStore.Api.Models
     {
         [Required]
         public string Name { get; set; }
+        public List<Guid> Books { get; set; } = new List<Guid>();
     }
 }

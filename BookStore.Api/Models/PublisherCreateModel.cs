@@ -10,5 +10,7 @@ namespace BookStore.Api.Models
     {
         [Required]
         public string Name { get; set; }
+        public List<Guid> Books { get; set; } = new List<Guid>();
+        public List<Guid> Authors { get; set; } = new List<Guid>();
     }
 }
