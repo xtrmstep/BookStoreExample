@@ -11,15 +11,26 @@ using Swashbuckle.Swagger.Annotations;
 
 namespace BookStore.Api.Controllers.V1
 {
+    /// <summary>
+    ///     Information about stores
+    /// </summary>
     public class StoresController : ApiController
     {
         protected readonly IStoreRepository _storeRepository;
 
+        /// <summary>
+        ///     constructor
+        /// </summary>
+        /// <param name="storeRepository"></param>
         public StoresController(IStoreRepository storeRepository)
         {
             _storeRepository = storeRepository;
         }
 
+        /// <summary>
+        ///     Get list of all stores
+        /// </summary>
+        /// <returns></returns>
         [ResponseType(typeof (List<StoreReadModel>))]
         public virtual IHttpActionResult Get()
         {
@@ -28,7 +39,13 @@ namespace BookStore.Api.Controllers.V1
             return Ok(stores);
         }
 
+        /// <summary>
+        ///     Get information about one store
+        /// </summary>
+        /// <param name="id">Store's identifier</param>
+        /// <returns></returns>
         [ResponseType(typeof (StoreReadModel))]
+        [SwaggerResponse(HttpStatusCode.NotFound, Description = "Not Found")]
         public IHttpActionResult Get(Guid id)
         {
             var store = _storeRepository.Find(id);
@@ -39,6 +56,11 @@ namespace BookStore.Api.Controllers.V1
             return Ok(storeViewModel);
         }
 
+        /// <summary>
+        ///     Add new store
+        /// </summary>
+        /// <param name="storeModel">Store create model</param>
+        /// <returns></returns>
         [SwaggerResponseRemoveDefaults]
         [SwaggerResponse(HttpStatusCode.Created, Description = "Created", Type = typeof (Guid))]
         [SwaggerResponse(HttpStatusCode.BadRequest, Description = "BadRequest")]
@@ -52,6 +74,12 @@ namespace BookStore.Api.Controllers.V1
             return Created(location, id);
         }
 
+        /// <summary>
+        ///     Update a store
+        /// </summary>
+        /// <param name="id">Store's identifier</param>
+        /// <param name="storeModel">Store update model</param>
+        /// <returns></returns>
         [SwaggerResponse(HttpStatusCode.BadRequest, Description = "BadRequest")]
         [SwaggerResponse(HttpStatusCode.NotFound, Description = "Not Found")]
         public IHttpActionResult Put(Guid id, [FromBody] StoreUpdateModel storeModel)
@@ -71,6 +99,11 @@ namespace BookStore.Api.Controllers.V1
             }
         }
 
+        /// <summary>
+        ///     Delete a store
+        /// </summary>
+        /// <param name="id">Store's identifier</param>
+        /// <returns></returns>
         [SwaggerResponse(HttpStatusCode.NotFound, Description = "Not Found")]
         public IHttpActionResult Delete(Guid id)
         {

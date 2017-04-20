@@ -11,15 +11,26 @@ using Swashbuckle.Swagger.Annotations;
 
 namespace BookStore.Api.Controllers.V1
 {
+    /// <summary>
+    ///     Information abut publishers
+    /// </summary>
     public class PublishersController : ApiController
     {
         protected readonly IPublisherRepository _publisherRepository;
 
+        /// <summary>
+        ///     constructor
+        /// </summary>
+        /// <param name="publisherRepository"></param>
         public PublishersController(IPublisherRepository publisherRepository)
         {
             _publisherRepository = publisherRepository;
         }
 
+        /// <summary>
+        ///     Get list of all publishers
+        /// </summary>
+        /// <returns></returns>
         [ResponseType(typeof (List<PublisherReadModel>))]
         public virtual IHttpActionResult Get()
         {
@@ -28,7 +39,13 @@ namespace BookStore.Api.Controllers.V1
             return Ok(publishers);
         }
 
+        /// <summary>
+        ///     Get information about one publisher
+        /// </summary>
+        /// <param name="id">Publisher's identifier</param>
+        /// <returns></returns>
         [ResponseType(typeof (PublisherReadModel))]
+        [SwaggerResponse(HttpStatusCode.NotFound, Description = "Not Found")]
         public IHttpActionResult Get(Guid id)
         {
             var publisher = _publisherRepository.Find(id);
@@ -39,6 +56,11 @@ namespace BookStore.Api.Controllers.V1
             return Ok(publisherViewModel);
         }
 
+        /// <summary>
+        ///     Add new publisher
+        /// </summary>
+        /// <param name="publisherModel">Publisher create model</param>
+        /// <returns></returns>
         [SwaggerResponseRemoveDefaults]
         [SwaggerResponse(HttpStatusCode.Created, Description = "Created", Type = typeof (Guid))]
         [SwaggerResponse(HttpStatusCode.BadRequest, Description = "BadRequest")]
@@ -52,6 +74,12 @@ namespace BookStore.Api.Controllers.V1
             return Created(location, id);
         }
 
+        /// <summary>
+        ///     Update a publisher
+        /// </summary>
+        /// <param name="id">Publisher's identifier</param>
+        /// <param name="publisherModel">Publisher update model</param>
+        /// <returns></returns>
         [SwaggerResponse(HttpStatusCode.BadRequest, Description = "BadRequest")]
         [SwaggerResponse(HttpStatusCode.NotFound, Description = "Not Found")]
         public IHttpActionResult Put(Guid id, [FromBody] PublisherUpdateModel publisherModel)
@@ -71,6 +99,11 @@ namespace BookStore.Api.Controllers.V1
             }
         }
 
+        /// <summary>
+        ///     Delete a publisher
+        /// </summary>
+        /// <param name="id">Publisher's identifier</param>
+        /// <returns></returns>
         [SwaggerResponse(HttpStatusCode.NotFound, Description = "Not Found")]
         public IHttpActionResult Delete(Guid id)
         {

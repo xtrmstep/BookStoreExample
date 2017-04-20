@@ -31,7 +31,7 @@ namespace BookStore.Api.Controllers.V2
         [ResponseType(typeof (List<Author>))]
         public override IHttpActionResult Get()
         {
-            return Ok(AuthorRepository.GetQuery());
+            return Ok(_authorRepository.GetQuery());
         }
 
         /// <summary>
