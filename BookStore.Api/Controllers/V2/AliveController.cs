@@ -5,7 +5,7 @@ namespace BookStore.Api.Controllers.V2
     /// <summary>
     ///     Root endpoint
     /// </summary>
-    public class RootController : ApiController
+    public class AliveController : ApiController
     {
         /// <summary>
         ///     Information about API
