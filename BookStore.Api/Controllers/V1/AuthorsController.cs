@@ -1,11 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Net;
 using System.Web.Http;
 using System.Web.Http.Description;
+using System.Web.Http.OData;
 using System.Web.Http.Results;
 using AutoMapper;
 using BookStore.Api.Models;
+using BookStore.Data;
 using BookStore.Data.Models;
 using BookStore.Data.Repositories;
 using Swashbuckle.Swagger.Annotations;
@@ -21,7 +24,7 @@ namespace BookStore.Api.Controllers.V1
             AuthorRepository = authorRepository;
         }
 
-        [ResponseType(typeof (List<AuthorReadModel>))]
+        [ResponseType(typeof(List<AuthorReadModel>))]
         public virtual IHttpActionResult Get()
         {
             var listOfAuthors = AuthorRepository.GetList();

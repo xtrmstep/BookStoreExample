@@ -1,8 +1,12 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using System.Web.Http;
 using System.Web.Http.Description;
+using System.Web.Http.OData;
+using AutoMapper;
 using BookStore.Api.Controllers.V1;
 using BookStore.Api.Models;
+using BookStore.Data.Models;
 using BookStore.Data.Repositories;
 
 namespace BookStore.Api.Controllers.V2
@@ -13,10 +17,18 @@ namespace BookStore.Api.Controllers.V2
         {
         }
 
+        [EnableQuery]
         [ResponseType(typeof (List<AuthorReadModel>))]
         public override IHttpActionResult Get()
         {
-            return Ok(new List<AuthorReadModel>());
+            return Ok(AuthorRepository.GetQuery());
         }
+
+
+        //Swashbuckle.OData
+        //public IQueryable<Author> Get()
+        //{
+        //    return AuthorRepository.GetQuery();
+        //}
     }
 }

@@ -21,7 +21,8 @@ namespace BookStore.Api.Infrastructure
 
         public static string GetControllerVersion(this Type controllerType)
         {
-            return controllerType.Namespace.Substring(controllerType.Namespace.LastIndexOf("V"));
+            var index = controllerType.Namespace.LastIndexOf("V");
+            return index >= 0 ? controllerType.Namespace.Substring(index) : string.Empty;
         }
 
         public static string GetControllerKey(string controllerVersion, string controllerName)

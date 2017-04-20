@@ -10,6 +10,9 @@ namespace BookStore.Api.Infrastructure
     internal class VersioningControllerSelector : IHttpControllerSelector
     {
         private readonly HttpConfiguration _configuration;
+        static Dictionary<string, HttpControllerDescriptor> result = null;
+        static object _locker = new object();
+
 
         public VersioningControllerSelector(HttpConfiguration config)
         {
@@ -18,42 +21,46 @@ namespace BookStore.Api.Infrastructure
 
         public IDictionary<string, HttpControllerDescriptor> GetControllerMapping()
         {
-            var result = new Dictionary<string, HttpControllerDescriptor>();
-            var controllers = _configuration.GetControllerTypes();
-
-            foreach (var controller in controllers)
+            if (result == null)
             {
-                var version = controller.GetControllerVersion();
-                var controllerName = controller.GetControllerName();
-                var key = ControllerHelpers.GetControllerKey(version, controllerName);
-                result.Add(key, new HttpControllerDescriptor(_configuration, controller.Name, controller));
+                lock (_locker)
+                {
+                    if (result == null)
+                    {
+                        result = new Dictionary<string, HttpControllerDescriptor>();
+                        var controllers = _configuration.GetControllerTypes();
+
+                        foreach (var controller in controllers)
+                        {
+                            var version = controller.GetControllerVersion();
+                            var controllerName = controller.GetControllerName();
+                            var key = ControllerHelpers.GetControllerKey(version, controllerName);
+                            result.Add(key, new HttpControllerDescriptor(_configuration, controller.Name, controller));
+                        }
+                    }
+                }
             }
             return result;
         }
 
         public HttpControllerDescriptor SelectController(HttpRequestMessage request)
         {
-            try
+            var controllers = GetControllerMapping();
+            var routeData = request.GetRouteData();
+
+            var simpleController = routeData.Values["controller"];
+
+            var controllerName = simpleController.ToString();
+            var controllerVersion = request.RequestUri.Segments[2].Replace("/", string.Empty);
+
+            HttpControllerDescriptor controllerDescriptor;
+
+            var key = ControllerHelpers.GetControllerKey(controllerVersion, controllerName);
+            if (controllers.TryGetValue(key, out controllerDescriptor))
             {
-                var controllers = GetControllerMapping();
-                var routeData = request.GetRouteData();
-
-                var controllerName = routeData.Values["controller"].ToString();
-                var controllerVersion = request.RequestUri.Segments[2].Replace("/", string.Empty);
-
-                HttpControllerDescriptor controllerDescriptor;
-
-                var key = ControllerHelpers.GetControllerKey(controllerVersion, controllerName);
-                if (controllers.TryGetValue(key, out controllerDescriptor))
-                {
-                    return controllerDescriptor;
-                }
-                return null;
+                return controllerDescriptor;
             }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
+            return null;
         }
     }
 }

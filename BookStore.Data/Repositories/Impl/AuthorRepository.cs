@@ -7,6 +7,11 @@ namespace BookStore.Data.Repositories.Impl
 {
     class AuthorRepository : IAuthorRepository
     {
+        public IQueryable<Author> GetQuery()
+        {
+            return new BookStoreContext().Authors.AsQueryable();
+        }
+
         public Guid Add(Author item)
         {
             using (var ctx = new BookStoreContext())
