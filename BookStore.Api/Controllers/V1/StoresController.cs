@@ -117,5 +117,41 @@ namespace BookStore.Api.Controllers.V1
                 return NotFound();
             }
         }
+
+        /// <summary>
+        ///     Get all authors of the publisher
+        /// </summary>
+        /// <param name="id">Store's identifier</param>
+        /// <returns></returns>
+        [Route("~/api/v1/stores/{id:guid}/authors")]
+        [ResponseType(typeof(List<AuthorReadModel>))]
+        public virtual IHttpActionResult GetAuthorsByStore(Guid id)
+        {
+            throw new NotImplementedException();
+        }
+
+        /// <summary>
+        ///     Get all books of the publisher
+        /// </summary>
+        /// <param name="id">Store's identifier</param>
+        /// <returns></returns>
+        [Route("~/api/v1/stores/{id:guid}/books")]
+        [ResponseType(typeof(List<BookReadModel>))]
+        public virtual IHttpActionResult GetBooksByStore(Guid id)
+        {
+            throw new NotImplementedException();
+        }
+
+        /// <summary>
+        ///     Get all books of the publisher
+        /// </summary>
+        /// <param name="id">Store's identifier</param>
+        /// <returns></returns>
+        [Route("~/api/v1/stores/{id:guid}/publishers")]
+        [ResponseType(typeof(List<PublisherReadModel>))]
+        public virtual IHttpActionResult GetPublishersByStore(Guid id)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using BookStore.Data.Models;
 
@@ -29,7 +30,7 @@ namespace BookStore.Data.Repositories.Impl
         {
             using (var ctx = new BookStoreContext())
             {
-                return ctx.Stores.ToList();
+                return ctx.Stores.Include(s => s.Address).ToList();
             }
         }
 

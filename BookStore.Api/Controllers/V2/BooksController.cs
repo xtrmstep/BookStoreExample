@@ -1,7 +1,9 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Web.Http;
 using System.Web.Http.Description;
 using System.Web.Http.OData;
+using BookStore.Api.Models;
 using BookStore.Data.Models;
 using BookStore.Data.Repositories;
 
@@ -29,6 +31,18 @@ namespace BookStore.Api.Controllers.V2
         public override IHttpActionResult Get()
         {
             return Ok(_bookRepository.GetQuery());
+        }
+
+        /// <summary>
+        ///     Get all authors of the book
+        /// </summary>
+        /// <param name="id">Book's identifier</param>
+        /// <returns></returns>
+        [Route("~/api/v2/books/{id:guid}/authors")]
+        [ResponseType(typeof(List<AuthorReadModel>))]
+        public virtual IHttpActionResult GetAuthorsByBook(Guid id)
+        {
+            throw new NotImplementedException();
         }
     }
 }
