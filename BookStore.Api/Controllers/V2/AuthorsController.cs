@@ -19,6 +19,10 @@ namespace BookStore.Api.Controllers.V2
         {
         }
 
+        /// <summary>
+        /// Query authors data with OData
+        /// </summary>
+        /// <returns></returns>
         [EnableQuery]
         [ResponseType(typeof (List<Author>))]
         public override IHttpActionResult Get()
@@ -27,6 +31,11 @@ namespace BookStore.Api.Controllers.V2
         }
 
 
+        /// <summary>
+        /// Get all books of author
+        /// </summary>
+        /// <param name="id">Author's identifier</param>
+        /// <returns></returns>
         [Route("~/api/v2/authors/{id:guid}/books")]
         [ResponseType(typeof(List<BookReadModel>))]
         public override IHttpActionResult GetBooksByAuthor(Guid id)

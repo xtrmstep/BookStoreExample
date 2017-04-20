@@ -29,6 +29,10 @@ namespace BookStore.Api.Controllers.V1
 
         public IAuthorRepository AuthorRepository => _authorRepository;
 
+        /// <summary>
+        /// Get list of all authors
+        /// </summary>
+        /// <returns></returns>
         [ResponseType(typeof(List<AuthorReadModel>))]
         public virtual IHttpActionResult Get()
         {
@@ -37,6 +41,11 @@ namespace BookStore.Api.Controllers.V1
             return Ok(authors);
         }
 
+        /// <summary>
+        /// Get information about author
+        /// </summary>
+        /// <param name="id">Author's identifier</param>
+        /// <returns></returns>
         [ResponseType(typeof (AuthorReadModel))]
         public IHttpActionResult Get(Guid id)
         {
@@ -48,6 +57,11 @@ namespace BookStore.Api.Controllers.V1
             return Ok(authorViewModel);
         }
 
+        /// <summary>
+        /// Add new author
+        /// </summary>
+        /// <param name="authorModel">Author create model</param>
+        /// <returns></returns>
         [SwaggerResponseRemoveDefaults]
         [SwaggerResponse(HttpStatusCode.Created, Description = "Created", Type = typeof(Guid))]
         [SwaggerResponse(HttpStatusCode.BadRequest, Description = "BadRequest")]
@@ -68,6 +82,12 @@ namespace BookStore.Api.Controllers.V1
             return Created(location, id);
         }
 
+        /// <summary>
+        /// Update author
+        /// </summary>
+        /// <param name="id">Author's identifier</param>
+        /// <param name="authorModel">Author update model</param>
+        /// <returns></returns>
         [SwaggerResponse(HttpStatusCode.BadRequest, Description = "BadRequest")]
         [SwaggerResponse(HttpStatusCode.NotFound, Description = "Not Found")]
         public IHttpActionResult Put(Guid id, [FromBody] AuthorUpdateModel authorModel)
@@ -87,6 +107,11 @@ namespace BookStore.Api.Controllers.V1
             }
         }
 
+        /// <summary>
+        /// Delete author
+        /// </summary>
+        /// <param name="id">Author's identifier</param>
+        /// <returns></returns>
         [SwaggerResponse(HttpStatusCode.NotFound, Description = "Not Found")]
         public IHttpActionResult Delete(Guid id)
         {
@@ -101,6 +126,11 @@ namespace BookStore.Api.Controllers.V1
             }
         }
 
+        /// <summary>
+        /// Get all books of author
+        /// </summary>
+        /// <param name="id">Author's identifier</param>
+        /// <returns></returns>
         [Route("~/api/v1/authors/{id:guid}/books")]
         [ResponseType(typeof(List<BookReadModel>))]
         public virtual IHttpActionResult GetBooksByAuthor(Guid id)
