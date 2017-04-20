@@ -48,5 +48,31 @@ namespace BookStore.Api.Infrastructure
         {
             return controllerName.Replace("Controller", string.Empty).ToLower();
         }
+
+        public static string GetControllerVersion(this Uri uri)
+        {
+            for (int index = 0; index < uri.Segments.Length; index++)
+            {
+                var segment = uri.Segments[index];
+                if (segment == "api/")
+                {
+                    return uri.Segments[index+1].Replace("/", string.Empty);
+                }
+            }
+            return string.Empty;
+        }
+
+        public static string GetControllerName(this Uri uri)
+        {
+            for (int index = 0; index < uri.Segments.Length; index++)
+            {
+                var segment = uri.Segments[index];
+                if (segment == "api/")
+                {
+                    return uri.Segments[index + 2].Replace("/", string.Empty);
+                }
+            }
+            return string.Empty;
+        }
     }
 }

@@ -8,6 +8,7 @@ using Swashbuckle.Application;
 using Swashbuckle.OData;
 using Swashbuckle.Swagger;
 using WebActivatorEx;
+#pragma warning disable 1591
 
 [assembly: PreApplicationStartMethod(typeof (SwaggerConfig), "Register")]
 
@@ -17,13 +18,11 @@ namespace BookStore.Api
     {
         public static void Register()
         {
-            var thisAssembly = typeof (SwaggerConfig).Assembly;
-
             GlobalConfiguration.Configuration
                 .EnableSwagger(c =>
                 {
                     c.MultipleApiVersions(
-                        (apiDesc, targetApiVersion) => ResolveVersionSupportByRouteConstraint(apiDesc, targetApiVersion),
+                        ResolveVersionSupportByRouteConstraint,
                         vc =>
                         {
                             vc.Version("v2", "Book Store Inventory API V2");
@@ -50,10 +49,7 @@ namespace BookStore.Api
                     c.DocumentFilter<RemoveDupolicateVersionFromPathItems>();
                     c.CustomProvider(defaultProvider => new ODataSwaggerProvider(defaultProvider, c, GlobalConfiguration.Configuration));
                 })
-                .EnableSwaggerUi(c =>
-                {
-                    
-                });
+                .EnableSwaggerUi(c => { });
         }
 
         private static bool ResolveVersionSupportByRouteConstraint(ApiDescription apiDesc, string targetApiVersion)

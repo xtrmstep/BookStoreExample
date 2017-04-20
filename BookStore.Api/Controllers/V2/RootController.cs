@@ -5,7 +5,6 @@ namespace BookStore.Api.Controllers.V2
     /// <summary>
     ///     Root endpoint
     /// </summary>
-    [Route("~")]
     public class RootController : ApiController
     {
         /// <summary>
