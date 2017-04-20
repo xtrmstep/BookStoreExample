@@ -5,6 +5,7 @@ using System.Web.Http.Description;
 using BookStore.Api;
 using BookStore.Api.Infrastructure;
 using Swashbuckle.Application;
+using Swashbuckle.OData;
 using Swashbuckle.Swagger;
 using WebActivatorEx;
 
@@ -47,6 +48,7 @@ namespace BookStore.Api
 
                     // adjustment required to compensate the change in controller selector logic
                     c.DocumentFilter<RemoveDupolicateVersionFromPathItems>();
+                    c.CustomProvider(defaultProvider => new ODataSwaggerProvider(defaultProvider, c, GlobalConfiguration.Configuration));
                 })
                 .EnableSwaggerUi(c =>
                 {

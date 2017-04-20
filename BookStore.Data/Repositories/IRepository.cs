@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace BookStore.Data.Repositories
 {
@@ -22,5 +23,6 @@ namespace BookStore.Data.Repositories
         /// <param name="id"></param>
         /// <exception cref="InvalidOperationException">No element satisfies the condition</exception>
         void Remove(Guid id);
+        IQueryable<T> GetQuery();
     }
 }

@@ -18,17 +18,10 @@ namespace BookStore.Api.Controllers.V2
         }
 
         [EnableQuery]
-        [ResponseType(typeof (List<AuthorReadModel>))]
+        [ResponseType(typeof (List<Author>))]
         public override IHttpActionResult Get()
         {
             return Ok(AuthorRepository.GetQuery());
         }
-
-
-        //Swashbuckle.OData
-        //public IQueryable<Author> Get()
-        //{
-        //    return AuthorRepository.GetQuery();
-        //}
     }
 }

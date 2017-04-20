@@ -33,6 +33,11 @@ namespace BookStore.Data.Repositories.Impl
             }
         }
 
+        public IQueryable<Store> GetQuery()
+        {
+            return new BookStoreContext().Stores.AsQueryable();
+        }
+
         public void Remove(Guid id)
         {
             using (var ctx = new BookStoreContext())

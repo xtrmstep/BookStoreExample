@@ -13,7 +13,7 @@ namespace BookStore.Api.Controllers.V1
 {
     public class PublishersController : ApiController
     {
-        private readonly IPublisherRepository _publisherRepository;
+        protected readonly IPublisherRepository _publisherRepository;
 
         public PublishersController(IPublisherRepository publisherRepository)
         {
@@ -21,7 +21,7 @@ namespace BookStore.Api.Controllers.V1
         }
 
         [ResponseType(typeof (List<PublisherReadModel>))]
-        public IHttpActionResult Get()
+        public virtual IHttpActionResult Get()
         {
             var listOfPublishers = _publisherRepository.GetList();
             var publishers = Mapper.Map<List<PublisherReadModel>>(listOfPublishers);

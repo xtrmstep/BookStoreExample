@@ -13,7 +13,7 @@ namespace BookStore.Api.Controllers.V1
 {
     public class StoresController : ApiController
     {
-        private readonly IStoreRepository _storeRepository;
+        protected readonly IStoreRepository _storeRepository;
 
         public StoresController(IStoreRepository storeRepository)
         {
@@ -21,7 +21,7 @@ namespace BookStore.Api.Controllers.V1
         }
 
         [ResponseType(typeof (List<StoreReadModel>))]
-        public IHttpActionResult Get()
+        public virtual IHttpActionResult Get()
         {
             var listOfStores = _storeRepository.GetList();
             var stores = Mapper.Map<List<StoreReadModel>>(listOfStores);
