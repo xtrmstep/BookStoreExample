@@ -7,19 +7,18 @@ using System.Web.Http.Dispatcher;
 
 namespace BookStore.Api.Infrastructure
 {
-    internal class VersioningControllerSelector : IHttpControllerSelector
+    internal class VersioningControllerSelector : DefaultHttpControllerSelector
     {
         private readonly HttpConfiguration _configuration;
         static Dictionary<string, HttpControllerDescriptor> result = null;
         static object _locker = new object();
 
-
-        public VersioningControllerSelector(HttpConfiguration config)
+        public VersioningControllerSelector(HttpConfiguration configuration) : base(configuration)
         {
-            _configuration = config;
+            _configuration = configuration;
         }
 
-        public IDictionary<string, HttpControllerDescriptor> GetControllerMapping()
+        public override IDictionary<string, HttpControllerDescriptor> GetControllerMapping()
         {
             if (result == null)
             {
@@ -43,7 +42,7 @@ namespace BookStore.Api.Infrastructure
             return result;
         }
 
-        public HttpControllerDescriptor SelectController(HttpRequestMessage request)
+        public override HttpControllerDescriptor SelectController(HttpRequestMessage request)
         {
             var controllers = GetControllerMapping();
             var routeData = request.GetRouteData();

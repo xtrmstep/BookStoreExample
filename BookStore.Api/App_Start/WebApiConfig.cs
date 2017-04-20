@@ -28,8 +28,6 @@ namespace BookStore.Api
                 routeTemplate: "api/v2/{controller}/{id}",
                 defaults: new { id = RouteParameter.Optional }
                 );
-
-            config.Services.Replace(typeof(IHttpControllerSelector), new VersioningControllerSelector(config));
         }
     }
 }

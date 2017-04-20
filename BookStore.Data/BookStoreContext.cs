@@ -5,6 +5,10 @@ namespace BookStore.Data
 {
     class BookStoreContext : DbContext
     {
+        public BookStoreContext() : base("BookStoreContext")
+        {
+            
+        }
         public IDbSet<Author> Authors { get; set; }
 
         public IDbSet<Book> Books { get; set; }
