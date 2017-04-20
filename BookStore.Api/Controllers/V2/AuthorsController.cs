@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
 using System.Web.Http;
@@ -23,6 +24,14 @@ namespace BookStore.Api.Controllers.V2
         public override IHttpActionResult Get()
         {
             return Ok(AuthorRepository.GetQuery());
+        }
+
+
+        [Route("~/api/v2/authors/{id:guid}/books")]
+        [ResponseType(typeof(List<BookReadModel>))]
+        public override IHttpActionResult GetBooksByAuthor(Guid id)
+        {
+            return base.GetBooksByAuthor(id);
         }
     }
 }

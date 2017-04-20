@@ -45,12 +45,8 @@ namespace BookStore.Api.Infrastructure
         public override HttpControllerDescriptor SelectController(HttpRequestMessage request)
         {
             var controllers = GetControllerMapping();
-            var routeData = request.GetRouteData();
-
-            var simpleController = routeData.Values["controller"];
-
-            var controllerName = simpleController.ToString();
             var controllerVersion = request.RequestUri.Segments[2].Replace("/", string.Empty);
+            var controllerName = request.RequestUri.Segments[3].Replace("/", string.Empty);
 
             HttpControllerDescriptor controllerDescriptor;
 

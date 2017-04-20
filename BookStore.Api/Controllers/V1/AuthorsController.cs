@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Net;
 using System.Web.Http;
@@ -98,6 +99,13 @@ namespace BookStore.Api.Controllers.V1
             {
                 return NotFound();
             }
+        }
+
+        [Route("~/api/v1/authors/{id:guid}/books")]
+        [ResponseType(typeof(List<BookReadModel>))]
+        public virtual IHttpActionResult GetBooksByAuthor(Guid id)
+        {
+            throw new NotImplementedException();
         }
     }
 }
